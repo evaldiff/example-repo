@@ -1,0 +1,5 @@
+[
+  { "input": "What is the capital of France? Answer with just the city name.", "expected": "Paris" },
+  { "input": "What is 7 times 8? Answer with just the number.", "expected": "56" },
+  { "input": "Translate the Swedish word 'goddag' into English. Answer with just the word.", "expected": "hello" }
+]

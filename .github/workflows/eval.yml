@@ -1,0 +1,26 @@
+name: eval
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run the evaldiff gate
+        uses: evaldiff/action@v1
+        with:
+          api_key: ${{ secrets.EVALDIFF_API_KEY }}
+          dataset_json: evals/cases.json
+          # --- model under test (any OpenAI-compatible endpoint) -----------
+          # Defaults to OpenAI. Override with repo variables MODEL_NAME /
+          # MODEL_URL to test against vLLM, Ollama, Open WebUI, etc.
+          model: ${{ vars.MODEL_NAME || 'gpt-4o-mini' }}
+          model_url: ${{ vars.MODEL_URL || 'https://api.openai.com/v1' }}
+          api_key_model: ${{ secrets.MODEL_API_KEY }}
+          # ---------------------------------------------------------------
+          threshold: ${{ vars.EVAL_THRESHOLD || '0.8' }}
+          timeout_seconds: 600
