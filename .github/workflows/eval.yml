@@ -11,7 +11,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run the evaldiff gate
-        uses: evaldiff/action@v1
+        id: gate
+        uses: evaldiff/action@v2
         with:
           api_key: ${{ secrets.EVALDIFF_API_KEY }}
           dataset_json: evals/cases.json
@@ -24,3 +25,9 @@ jobs:
           # ---------------------------------------------------------------
           threshold: ${{ vars.EVAL_THRESHOLD || '0.8' }}
           timeout_seconds: 600
+
+      - name: Show gate result
+        run: |
+          echo "run_id=${{ steps.gate.outputs.run_id }}"
+          echo "passed=${{ steps.gate.outputs.passed }}"
+          echo "pass_rate=${{ steps.gate.outputs.pass_rate }}"
